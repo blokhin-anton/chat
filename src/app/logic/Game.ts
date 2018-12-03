@@ -1,26 +1,31 @@
 import Table from '../baseLogic/Table';
 import User from '../user/user';
 import Deck from '../card/deck';
+import Serv from '../serv'
 
 class Game {
-    private currentUser: User = null;
-    private users: Array<User>;
-    private deck: Deck
-    constructor(table: Table) {
-        let temp = table.getTable();
-        this.deck = temp.deck;
-        this.users = temp.users;
+    private table: Table;
+    private serv: Serv;
+    constructor(table: Table, serv: Serv) {
+        this.table = table;
+        this.serv = serv;
     }
 
     start(): void {
-        this.loop();
+        this.table.init();
+        // this.loop(this.table.getUsers(), this.table.getDeck());
     }
 
-    loop(): {
-
+    loop(users: Array<User>, deck: Deck) {
+        users.forEach(async(user) => {
+            let action = await this.serv.getUserAction(user.getId());
+            if (action) {
+                user.getHand().takeCard(deck.getCard());
+            }
+        });
     }
 
-    step() {
+    step(user: User) {
 
     }
 
@@ -28,3 +33,5 @@ class Game {
         
     }
 }
+
+export default Game;

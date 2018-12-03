@@ -3,13 +3,19 @@ class User {
     private login: string;
     private password: string;
     private hand: Hand;
-    constructor(login: string, password: string) {
+    private id: number;
+    constructor(id: number, login: string, password: string) {
         this.login = login;
         this.password = password;
         this.hand = new Hand();
+        this.id = id;
     }
 
-    public getLogin = () => {
+    getId(): number {
+        return this.id;
+    }
+    
+    getLogin(): string {
         return this.login;
     }
 

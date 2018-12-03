@@ -15,5 +15,13 @@ class Hand {
     public viewHand(): Array<Card> {
         return this.cards;
     }
+
+    putLastCard(): Card | void {
+        let card = this.cards.pop();
+        if (card) {
+            return card;    
+        }
+        
+    }
 }
 export default Hand;

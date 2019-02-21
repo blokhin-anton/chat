@@ -37,6 +37,9 @@ class Table {
     }
 
     putCardOnTable(user: User, card: Card) {
+        if (!this.cardOnTable[user.getId()]) {
+            this.cardOnTable[user.getId()] = Array();
+        }
         this.cardOnTable[user.getId()].push(card);
     }
 

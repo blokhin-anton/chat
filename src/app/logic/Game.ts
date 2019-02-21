@@ -6,27 +6,36 @@ import Serv from '../serv'
 class Game {
     private table: Table;
     private serv: Serv;
+
     constructor(table: Table, serv: Serv) {
         this.table = table;
         this.serv = serv;
     }
 
-    start(): void {
+    async start(): Promise<boolean> {
         this.table.init();
-        // this.loop(this.table.getUsers(), this.table.getDeck());
+        let step = await this.loop(this.table.getUsers(), this.table.getDeck());
+        return true;
     }
 
-    loop(users: Array<User>, deck: Deck) {
-        users.forEach(async(user) => {
-            let action = await this.serv.getUserAction(user.getId());
-            if (action) {
-                user.getHand().takeCard(deck.getCard());
+    async loop(users: Array<User>, deck: Deck) {
+        users.map(
+            (user) => {
+                return this.step(user, deck);
             }
-        });
+        );
+        console.log('edd loop');
     }
 
-    step(user: User) {
-
+    async step(user: User, deck: Deck) {
+        console.log('await getUserAction');
+        let action = await this.serv.getUserAction(user.getId());
+        console.log('getting getUserAction');
+        if (action) {
+            console.log(user.getLogin(), 'action');
+            user.getHand().takeCard(deck.getCard());
+        }
+        return true;
     }
 
     endStep() {

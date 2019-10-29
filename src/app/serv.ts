@@ -1,5 +1,3 @@
-import User from './user/user';
-
 class Serv {
     constructor() {
 

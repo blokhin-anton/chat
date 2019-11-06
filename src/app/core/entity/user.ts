@@ -1,20 +1,25 @@
-export class User {
-  private _id: number;
-  private _name: string;
-  private _heathCount: number;
+import { Entity } from "./entity";
 
-  constructor(id: number, name: string, heathCount: number = 10) {
-    this._id = id;
+export class UserEntity extends Entity {
+  private _nick: string;
+  private _name: string;
+  private _firstName: string;
+  private _lastName: string;
+
+  constructor(id: number, nick: string, name: string, firstName: string, lastName: string) {
+    super(id);
+    this._nick = nick;
     this._name = name;
-    this._heathCount = heathCount;
+    this._firstName = firstName;
+    this._lastName = lastName;
   }
 
   /**
-   * Getter id
-   * @return {number}
+   * Getter nick
+   * @return {string}
    */
-  public get id(): number {
-    return this._id;
+  public get nick(): string {
+    return this._nick;
   }
 
   /**
@@ -26,11 +31,51 @@ export class User {
   }
 
   /**
-   * Getter heathCount
-   * @return {number}
+   * Getter firstName
+   * @return {string}
    */
-  public get heathCount(): number {
-    return this._heathCount;
+  public get firstName(): string {
+    return this._firstName;
+  }
+
+  /**
+   * Getter lastName
+   * @return {string}
+   */
+  public get lastName(): string {
+    return this._lastName;
+  }
+
+  /**
+   * Setter nick
+   * @param {string} value
+   */
+  public set nick(value: string) {
+    this._nick = value;
+  }
+
+  /**
+   * Setter name
+   * @param {string} value
+   */
+  public set name(value: string) {
+    this._name = value;
+  }
+
+  /**
+   * Setter firstName
+   * @param {string} value
+   */
+  public set firstName(value: string) {
+    this._firstName = value;
+  }
+
+  /**
+   * Setter lastName
+   * @param {string} value
+   */
+  public set lastName(value: string) {
+    this._lastName = value;
   }
 
 }

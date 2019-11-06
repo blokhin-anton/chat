@@ -1,44 +1,29 @@
-import { Card } from './card';
+import { Entity } from './entity';
+import { CardEntity } from './card';
 
-export class Desk {
-  private _list: Card[];
-  private _count: number;
+export class DeskEntity extends Entity {
 
-  constructor(list: Card[], count: number) {
+  private _list: CardEntity[];
+
+  constructor(id: number, list: CardEntity[]) {
+    super(id);
     this._list = list;
-    this._count = count;
   }
 
   /**
    * Getter list
-   * @return {Card[]}
+   * @return {CardEntity[]}
    */
-  public get list(): Card[] {
+  public get list(): CardEntity[] {
     return this._list;
   }
 
   /**
-   * Getter count
-   * @return {number}
-   */
-  public get count(): number {
-    return this._count;
-  }
-
-  /**
    * Setter list
-   * @param {Card[]} value
+   * @param {CardEntity[]} value
    */
-  public set list(value: Card[]) {
+  public set list(value: CardEntity[]) {
     this._list = value;
-  }
-
-  /**
-   * Setter count
-   * @param {number} value
-   */
-  public set count(value: number) {
-    this._count = value;
   }
 
 }

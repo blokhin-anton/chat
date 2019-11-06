@@ -1,12 +1,11 @@
 import { TableAction } from './table';
-import { User } from '../core/entity/user';
-import { Table } from '../core/entity/table';
+import { Player } from '../core/actionEntity/palyer';
 
 export class RoomAction {
   private _users: User[] = [];
   private _tables: TableAction[] = [];
 
-  enter(user: User): void {
+  enter(user: Player): void {
     this._users.push(user);
   }
 

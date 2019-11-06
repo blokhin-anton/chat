@@ -1,21 +1,11 @@
-import { Table } from './table';
-export class Room {
-  private _id: number;
+import { Entity } from "./entity";
+
+export class RoomEntity extends Entity {
   private _name: string;
-  private _tables: Table[];
 
-  constructor(id: number, name: string, tables: Table[] = []) {
-    this._id = id;
+  constructor(id: number, name: string) {
+    super(id);
     this._name = name;
-    this._tables = tables;
-  }
-
-  /**
-   * Getter id
-   * @return {number}
-   */
-  public get id(): number {
-    return this._id;
   }
 
   /**
@@ -26,15 +16,4 @@ export class Room {
     return this._name;
   }
 
-  /**
-   * Getter tables
-   * @return {Table[]}
-   */
-  public get tables(): Table[] {
-    return this._tables;
-  }
-
-  /*addTable( table: Table ) {
-    this._tables.push(table);
-  }*/
 }

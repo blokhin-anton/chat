@@ -1,19 +1,19 @@
-import { User } from '../core/entity/user';
-
-import { Room } from '../core/entity/room';
 import { TableAction } from './table';
-import { Table } from '../core/entity/table';
+import { Table } from '../core/actionEntity/table';
+import { Player } from '../core/actionEntity/palyer';
+import { RoomAction } from './room';
 
-const user1 = new User(1, 'user1');
-const user2 = new User(2, 'user2');
-const user3 = new User(3, 'user3');
+
+const user1 = new Player(1, 'us1', 'name', 'fName', 'lName');
+const user2 = new Player(2, 'us2', 'name', 'fName', 'lName');
+const user3 = new Player(3, 'us3', 'name', 'fName', 'lName');
 
 export class Init {
-  private _rooms: Room[] = [];
+  private _rooms: RoomAction[] = [];
 
   create() {
     const table = new TableAction(
-      new Table(1)
+      new Table(1, 'test table')
     );
 
     table.joinPlayers([user1, user2, user3]);

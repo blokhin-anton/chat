@@ -1,5 +1,6 @@
 import { DeskEntity } from "../entity/desk";
 import { Card } from "./card";
+import { CardEntity } from "../entity/card";
 
 export class Desk extends DeskEntity {
 
@@ -22,7 +23,8 @@ export class Desk extends DeskEntity {
     );
   }
 
-  takeCard(): Card | unknown {
-    return this.list.pop();
+  takeCard(): CardEntity | null {
+    const card = this.list.pop();
+    return card? card: null;
   }
 }

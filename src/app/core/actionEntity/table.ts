@@ -12,8 +12,8 @@ export class Table extends TableEntity {
     }
   }
 
-  addUser(user: Player): void {
-    this._players.push(user);
+  addUser(user: Player | Player[]): void {
+    this._players = this._players.concat(user);
   }
 
   leaveUser(user: Player): void {

@@ -14,4 +14,8 @@ export class Card extends CardEntity {
   isCanShowCard(): boolean {
     return this._isHide;
   }
+
+  static entryToCard(cardEntry: CardEntity): Card {
+    return new Card(cardEntry.id, cardEntry.name, cardEntry.meaning);
+  }
 }

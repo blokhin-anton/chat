@@ -1,4 +1,3 @@
-import { TableAction } from './table';
 import { Table } from '../core/actionEntity/table';
 import { Player } from '../core/actionEntity/palyer';
 import { RoomAction } from './room';
@@ -12,11 +11,9 @@ export class Init {
   private _rooms: RoomAction[] = [];
 
   create() {
-    const table = new TableAction(
-      new Table(1, 'test table')
-    );
+    const table = new Table(1, 'test table');
 
-    table.joinPlayers([user1, user2, user3]);
+    table.addUser([user1, user2, user3]);
     const resuylt = table.start();
     console.log( table.table );
     console.log( table.table.userPlaces );

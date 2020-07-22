@@ -1,8 +1,8 @@
-import { TableAction } from './table';
+//import { TableAction } from './table';
 import { Player } from '../core/actionEntity/palyer';
 
 export class RoomAction {
-  private _users: User[] = [];
+  /*private _users: User[] = [];
   private _tables: TableAction[] = [];
 
   enter(user: Player): void {
@@ -26,6 +26,6 @@ export class RoomAction {
   joinToTable(table: Table, users: User[]): void {
     this._tables[this._tables.findIndex( tblAct => tblAct.table.id === table.id )].joinPlayers(users);
   }
-
+*/
   
 }

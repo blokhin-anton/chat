@@ -2,8 +2,10 @@ import { PlayerEntity } from "../entity/player";
 import { Card } from "./card";
 
 export class Player extends PlayerEntity {
-  takeCard(card: Card): void {
-    this.showCards.push(card);
+  takeCard(card: Card | null): void {
+    if (card) {
+      this.showCards.push(card)
+    };
   }
 
   takePrivateCard(card: Card): void {

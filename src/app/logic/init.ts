@@ -1,6 +1,7 @@
 import { Table } from '../core/actionEntity/table';
 import { Player } from '../core/actionEntity/palyer';
 import { RoomAction } from './room';
+import { Game } from './game';
 
 
 const user1 = new Player(1, 'us1', 'name', 'fName', 'lName');
@@ -10,13 +11,18 @@ const user3 = new Player(3, 'us3', 'name', 'fName', 'lName');
 export class Init {
   private _rooms: RoomAction[] = [];
 
-  create() {
+  async create() {
     const table = new Table(1, 'test table');
 
-    table.addUser([user1, user2, user3]);
-    const resuylt = table.start();
-    console.log( table.table );
-    console.log( table.table.userPlaces );
+    table.addPlayer([user1, user2, user3]);
+
+    const game = new Game(table);
+
+    game.init();
+
+    await game.start();
+
+
   }
 
 

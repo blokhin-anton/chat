@@ -1,15 +1,18 @@
 import { Player } from '../core/actionEntity/palyer';
 import { Desk } from '../core/actionEntity/desk';
-import { Card } from '../core/actionEntity/card';
-import { GAction } from './gAction';
+
+import { Table } from '../core/actionEntity/table';
+
+import { actionList } from '../action/actionList';
+
+import { ActionProcess } from '../action/index';
 
 export class Game {
-  private _players: Player[] = [];
-  private _desk: Desk;
 
-  constructor(players: Player[] , desk: Desk) {
-    this._players = players;
-    this._desk = desk;
+  private table: Table;
+
+  constructor(table: Table) {
+    this.table = table;
   }
 
   /**
@@ -17,7 +20,7 @@ export class Game {
    * @return {Player[] }
    */
   public get players(): Player[]  {
-    return this._players;
+    return this.table.getPlayers();
   }
 
   /**
@@ -25,52 +28,64 @@ export class Game {
    * @return {Desk}
    */
   public get desk(): Desk {
-    return this._desk;
+    return this.table.getDesk();
   }
 
-  /**
-   * Setter players
-   * @param {Player[] } value
-   */
-  public set players(value: Player[] ) {
-    this._players = value;
-  }
-
-  /**
-   * Setter desk
-   * @param {Desk} value
-   */
-  public set desk(value: Desk) {
-    this._desk = value;
-  }
-
-  public initG(): void {
-    this.dealCards();
-    this.dealCards();
-  }
-
-  private dealCards(player?: Player[]): void {
-    let playerInGame: Player[];
-    if (player) {
-      playerInGame = this._players.filter(
-        playerL => player.some( playerG => playerG.id === playerL.id )
-      );
-    } else {
-      playerInGame = this._players;
-    }
-    playerInGame.forEach(
-      player => {
-        const card = this._desk.takeCard();
-        if (card) {
-          player.takePrivateCard( Card.entryToCard(card) )
-        }
+  private dealCard() {
+    this.table.getPlayers().map(
+      (player) => {
+        player.takeCard(this.desk.takeCard())
       }
     );
   }
 
-  private loop() {
-    GAction.gAction();
-    
+  init() {
+    this.dealCard();
+    this.dealCard();
+    // this.start();
+  }
+
+  async start() {
+    const iterator = this.playerIterator();
+    let isStopped = false;
+
+    while (!isStopped) {
+      let player = iterator.next();
+      await this.steep(player);
+    }
+  }
+
+  private async steep(player: Player) {
+    // send action request
+    console.log(`sendind request for user ${player.id}`);
+    const playerAction = await this.sendRequest(player);
+    console.log(`getting request for user ${player.id} with ${playerAction}`);
+    await ActionProcess.exec(playerAction, {
+      card: player.putCard(),
+      table: this.table
+    });
+  }
+
+  private async sendRequest(player: Player, type?: any): Promise<keyof typeof actionList> {
+    await new Promise(
+      (resolve) => setTimeout(resolve, 5000)
+    );
+    return actionList.TAKE;
+  }
+
+  private playerIterator(): { next: () => Player } {
+    let currentPlayer = -1;
+    return {
+      next: () => {
+        ++currentPlayer;
+        if (!this.table.getPlayers()[currentPlayer]) {
+          currentPlayer = 0;
+        }
+        let player = this.table.getPlayers()[currentPlayer];
+        return player;
+      }
+    }
+
   }
 
 }

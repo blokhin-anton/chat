@@ -7,7 +7,7 @@ type actionsType = keyof typeof actionList;
 
 // ?????????????
 const actionsHandlers: { [P in actionsType]: Function } = {
-  "TAKE": (new TakeAction).execute,
+  "TAKE": () => {}, //(new TakeAction).execute,
   "PUT": () => {},
   "PASS": () => {},
   "UP": () => {},

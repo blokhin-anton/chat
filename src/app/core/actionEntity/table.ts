@@ -35,6 +35,10 @@ export class Table extends TableEntity {
     this._cardsOnTable.push(card);
   }
 
+  showCartOnTable() {
+    return this._cardsOnTable;
+  }
+
   leavePlayer(user: Player): void {
     this._players = this._players.filter( us => us.id !== user.id );
   }

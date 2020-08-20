@@ -7,6 +7,10 @@ import { actionList } from '../action/actionList';
 
 import { ActionProcess } from '../action/index';
 
+import { classLoger } from '../logger/loggerDecorators';
+import { Card } from '../core/actionEntity/card';
+
+@classLoger
 export class Game {
 
   private table: Table;
@@ -19,7 +23,7 @@ export class Game {
    * Getter players
    * @return {Player[] }
    */
-  public get players(): Player[]  {
+  public getPlayers(): Player[]  {
     return this.table.getPlayers();
   }
 
@@ -27,14 +31,14 @@ export class Game {
    * Getter desk
    * @return {Desk}
    */
-  public get desk(): Desk {
+  public getDesk(): Desk {
     return this.table.getDesk();
   }
 
   private dealCard() {
-    this.table.getPlayers().map(
+    this.getPlayers().map(
       (player) => {
-        player.takeCard(this.desk.takeCard())
+        player.takeCard(this.getDesk().takeCard())
       }
     );
   }
@@ -47,12 +51,16 @@ export class Game {
 
   async start() {
     const iterator = this.playerIterator();
-    let isStopped = false;
+    let isStopped = 0;
 
-    while (!isStopped) {
+    while (isStopped < 7) {
       let player = iterator.next();
       await this.steep(player);
+      ++isStopped;
     }
+
+    console.log(this.table.getDesk());
+    console.log(this.table.showCartOnTable());
   }
 
   private async steep(player: Player) {
@@ -60,15 +68,19 @@ export class Game {
     console.log(`sendind request for user ${player.id}`);
     const playerAction = await this.sendRequest(player);
     console.log(`getting request for user ${player.id} with ${playerAction}`);
-    await ActionProcess.exec(playerAction, {
+    const card = player.putCard();
+
+    this.table.pushCard(<Card>card);
+
+    /*await ActionProcess.exec(playerAction, {
       card: player.putCard(),
       table: this.table
-    });
+    });*/
   }
 
   private async sendRequest(player: Player, type?: any): Promise<keyof typeof actionList> {
     await new Promise(
-      (resolve) => setTimeout(resolve, 5000)
+      (resolve) => setTimeout(resolve, 500)
     );
     return actionList.TAKE;
   }
